@@ -24,13 +24,40 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * @access public
 				 * @return void
 				 */
-				public function __construct() {
+				public function __construct( $instance_id = 0 ) {
 					$this->id                 = 'seb_custom_shipping'; // Id for your shipping method. Should be uunique.
+                    $this->instance_id           = absint( $instance_id ); // Unique instance ID of the method (zones can contain multiple instances of a single shipping method)
 					$this->method_title       = __( 'Sebastian Custom Shipping' );  // Title shown in admin
 					$this->method_description = __( 'Shipping method that is strictly dependent on shipping classes' ); // Description shown in admin
-
-					$this->enabled            = "yes"; // This can be added as an setting but for this example its forced enabled
-					$this->title              = "Sebastian Custom Shipping"; // This can be added as an setting but for this example its forced.
+                    $this->supports              = array(
+                        'shipping-zones',
+                        'instance-settings',
+                        'instance-settings-modal'
+                    );
+                    $this->instance_form_fields = array(
+                        'enabled' => array(
+                            'title' 		=> __( 'Enable/Disable' ),
+                            'type' 			=> 'checkbox',
+                            'label' 		=> __( 'Enable this shipping method' ),
+                            'default' 		=> 'yes',
+                        ),
+                        'title' => array(
+                            'title' 		=> __( 'Title' ),
+                            'type' 			=> 'text',
+                            'description' 	=> __( 'This controls the title which the user sees during checkout.' ),
+                            'default'		=> __( 'Sebastian Custom Shipping' ),
+                            'desc_tip'		=> true
+                        ),
+                        'fixed_rate' => array(
+                            'title' 		=> __( 'Title' ),
+                            'type' 			=> 'text',
+                            'description' 	=> __( 'This is the fixed shipping fee' ),
+                            'default'		=> __( '0' ),
+                            'desc_tip'		=> true
+                        )
+                    );
+					$this->enabled            = $this->get_option( 'enabled' );
+					$this->title              = $this->get_option( 'title' );
 
 					$this->init();
 				}
@@ -43,8 +70,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 */
 				function init() {
 					// Load the settings API
-					$this->init_form_fields(); // This is part of the settings API. Override the method to add your own settings
-					$this->init_settings(); // This is part of the settings API. Loads settings you previously init.
+					// $this->init_form_fields(); 
+					// $this->init_settings(); // This is part of the settings API. Loads settings you previously init.
 
 					// Save settings in admin if you have any defined
 					add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
@@ -59,9 +86,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 */
 				public function calculate_shipping( $package = array() ) {
 					$rate = array(
+                        'id'    => $this->id . $this->instance_id,
 						'label' => $this->title,
-						'cost' => '10.99',
-						'calc_tax' => 'per_item'
+						'cost' => $this->get_option( 'fixed_rate' ),
 					);
 
 					// Register the rate
