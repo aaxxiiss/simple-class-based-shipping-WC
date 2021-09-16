@@ -34,28 +34,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                         'instance-settings',
                         'instance-settings-modal'
                     );
-                    $this->instance_form_fields = array(
-                        'enabled' => array(
-                            'title' 		=> __( 'Enable/Disable' ),
-                            'type' 			=> 'checkbox',
-                            'label' 		=> __( 'Enable this shipping method' ),
-                            'default' 		=> 'yes',
-                        ),
-                        'title' => array(
-                            'title' 		=> __( 'Title' ),
-                            'type' 			=> 'text',
-                            'description' 	=> __( 'This controls the title which the user sees during checkout.' ),
-                            'default'		=> __( 'Sebastian Custom Shipping' ),
-                            'desc_tip'		=> true
-                        ),
-                        'fixed_rate' => array(
-                            'title' 		=> __( 'Fixed fee' ),
-                            'type' 			=> 'text',
-                            'description' 	=> __( 'This is the fixed shipping fee' ),
-                            'default'		=> __( '0' ),
-                            'desc_tip'		=> true
-                        )
-                    );
+                    $this->instance_form_fields = include( 'seb-settings.php' );
 					$this->enabled            = $this->get_option( 'enabled' );
 					$this->title              = $this->get_option( 'title' );
 
@@ -74,6 +53,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					// $this->init_settings(); // This is part of the settings API. Loads settings you previously init.
 
 					// Save settings in admin if you have any defined
+					
 					add_action( 'woocommerce_update_options_shipping_' . $this->id, array( $this, 'process_admin_options' ) );
 				}
 
