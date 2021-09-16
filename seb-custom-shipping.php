@@ -49,7 +49,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                             'desc_tip'		=> true
                         ),
                         'fixed_rate' => array(
-                            'title' 		=> __( 'Title' ),
+                            'title' 		=> __( 'Fixed fee' ),
                             'type' 			=> 'text',
                             'description' 	=> __( 'This is the fixed shipping fee' ),
                             'default'		=> __( '0' ),
