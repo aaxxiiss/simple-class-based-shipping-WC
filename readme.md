@@ -7,8 +7,8 @@ Sebastian Custom Shipping adds new shipping method that is strictly dependent on
 As an example, shop admin can define shipping class for "letter size items" and wishes to have shipping method that is available for orders that contain only items that can fit in letter. With Sebastian Custom Shipping this can be achieved.
 
 ## To do list for 1.0
-* create basic plugin structure
-* define new shipping method
+* ~~create basic plugin structure~~
+* ~~define new shipping method~~
 * make shipping method dependent on shipping class
 
 ## To do list for additional features
