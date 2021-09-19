@@ -13,7 +13,11 @@ Text Domain: seb-custom-shipping
 /**
  * Check if WooCommerce is active
  */
+
+
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+
+	define('SEB_ID', 'seb_custom_shipping');
 
 	function seb_shipping_method_init() {
 		if ( ! class_exists( 'SEB_Custom_Shipping' ) ) {
@@ -25,7 +29,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * @return void
 				 */
 				public function __construct( $instance_id = 0 ) {
-					$this->id                 = 'seb_custom_shipping'; // Id for your shipping method. Should be uunique.
+					$this->id                 = SEB_ID; // Id for your shipping method. Should be uunique.
                     $this->instance_id           = absint( $instance_id ); // Unique instance ID of the method (zones can contain multiple instances of a single shipping method)
 					$this->method_title       = __( 'Sebastian Custom Shipping' );  // Title shown in admin
 					$this->method_description = __( 'Shipping method that is strictly dependent on shipping classes' ); // Description shown in admin
@@ -68,7 +72,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					$rate = array(
                         'id'    => $this->id . $this->instance_id,
 						'label' => $this->title,
-						'cost' => $this->get_option( 'fixed_rate' ),
+						'cost' => $this->get_option('fixed_rate'),
 					);
 
 					// Register the rate
@@ -80,10 +84,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 
 	add_action( 'woocommerce_shipping_init', 'seb_shipping_method_init' );
 
-	function add_seb_custom_shipping( $methods ) {
+	function add_seb_custom_shipping( $methods ) {		
 		$methods['seb_custom_shipping'] = 'SEB_Custom_Shipping';
 		return $methods;
 	}
-
 	add_filter( 'woocommerce_shipping_methods', 'add_seb_custom_shipping' );
+
+	// add filtering to exclude shipping method,
+	// if cart indludes items that are not meeting the criteria of restricted shipping class
+	include( 'seb-filter-shipping-methods.php' );
+
 }

@@ -4,6 +4,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// get defined shipping classes and ad them to array with format: slug => name
+$shipping_classes = WC()->shipping->get_shipping_classes();
+$shipping_class_names = array();
+foreach ( $shipping_classes as $shipping_class ) {
+    $shipping_class_names[$shipping_class->slug] = $shipping_class->name;
+}
+
+
+
 $settings =  array(
     'enabled' => array(
         'title' 		=> __( 'Enable/Disable' ),
@@ -29,10 +38,7 @@ $settings =  array(
         'title'			=> __('Shipping class'),
         'type'			=> 'select',
         'description'	=> __('Restrict to shipping class. Shipping is available when all items on order belong to the selected shipping class.'),
-        'options'		=> array(
-                            'test'	=>		'Test shipping class',
-                            'kaks'	=>		'Kakkonen',
-                            ),
+        'options'		=> $shipping_class_names,
         'desc_tip'		=> true
     ),
 );
