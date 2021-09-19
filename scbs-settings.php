@@ -41,6 +41,13 @@ $settings =  array(
         'options'		=> $shipping_class_names,
         'desc_tip'		=> true
     ),
+    'max_item_amount' => array(
+        'title' 		=> __( 'Max amount of items' ),
+        'type' 			=> 'text',
+        'description' 	=> __( 'Limit the amount of items that can be included. Shipping option is available when amount of items in an order is less than or equal to this value. Leave empty for unlimited amount.' ),
+        'default'		=> __( '0' ),
+        'desc_tip'		=> true
+    ),
 );
 
 return $settings;
