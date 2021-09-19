@@ -1,13 +1,13 @@
 <?php
 /*
-Plugin Name: Sebastian Custom Shipping plugin
-Plugin URI: https://shopforsebastian.com
-Description: Sebastian Custom Shipping is strictly shipping class dependent shipping method for WooCommerce
-Version: 0.0.1
+Plugin Name: Simple Class Based Shipping for WooCommerce
+Plugin URI: https://github.com/aaxxiiss/simple-class-based-shipping-WC
+Description: Simple Class Based Shipping is a WooCommerce shipping method, that enables custom shipping option for products in chosen shipping class
+Version: 1.0.0
 Author: Jukka Isokoski
 Author URI: https://jukkaisokoski.fi
 License: GPL v2 or later
-Text Domain: seb-custom-shipping
+Text Domain: SCBS
 */
 
 /**
@@ -17,11 +17,12 @@ Text Domain: seb-custom-shipping
 
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 
-	define('SEB_ID', 'seb_custom_shipping');
+	// ID for custom shipping method
+	define('SCBS_ID', 'scbs_custom_shipping');
 
-	function seb_shipping_method_init() {
-		if ( ! class_exists( 'SEB_Custom_Shipping' ) ) {
-			class SEB_Custom_Shipping extends WC_Shipping_Method {
+	function scbs_shipping_method_init() {
+		if ( ! class_exists( 'SCBS_Custom_Shipping' ) ) {
+			class SCBS_Custom_Shipping extends WC_Shipping_Method {
 				/**
 				 * Constructor for your shipping class
 				 *
@@ -29,16 +30,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * @return void
 				 */
 				public function __construct( $instance_id = 0 ) {
-					$this->id                 = SEB_ID; // Id for your shipping method. Should be uunique.
+					$this->id                 = SCBS_ID;
                     $this->instance_id           = absint( $instance_id ); // Unique instance ID of the method (zones can contain multiple instances of a single shipping method)
-					$this->method_title       = __( 'Sebastian Custom Shipping' );  // Title shown in admin
-					$this->method_description = __( 'Shipping method that is strictly dependent on shipping classes' ); // Description shown in admin
+					$this->method_title       = __( 'Simple Class Based Shipping' );  // Title shown in admin
+					$this->method_description = __( 'Simple Class Based Shipping enables custom shipping option for products in chosen shipping class' );
                     $this->supports              = array(
                         'shipping-zones',
                         'instance-settings',
                         'instance-settings-modal'
                     );
-                    $this->instance_form_fields = include( 'seb-settings.php' );
+                    $this->instance_form_fields = include( 'scbs-settings.php' );
 					$this->enabled            = $this->get_option( 'enabled' );
 					$this->title              = $this->get_option( 'title' );
 
@@ -82,16 +83,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 		}
 	}
 
-	add_action( 'woocommerce_shipping_init', 'seb_shipping_method_init' );
+	add_action( 'woocommerce_shipping_init', 'scbs_shipping_method_init' );
 
-	function add_seb_custom_shipping( $methods ) {		
-		$methods['seb_custom_shipping'] = 'SEB_Custom_Shipping';
+	function add_scbs_custom_shipping( $methods ) {		
+		$methods['scbs_custom_shipping'] = 'SCBS_Custom_Shipping';
 		return $methods;
 	}
-	add_filter( 'woocommerce_shipping_methods', 'add_seb_custom_shipping' );
+	add_filter( 'woocommerce_shipping_methods', 'add_scbs_custom_shipping' );
 
 	// add filtering to exclude shipping method,
 	// if cart indludes items that are not meeting the criteria of restricted shipping class
-	include( 'seb-filter-shipping-methods.php' );
+	include( 'scbs-filter-shipping-methods.php' );
 
 }

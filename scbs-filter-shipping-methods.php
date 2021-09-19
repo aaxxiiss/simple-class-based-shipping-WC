@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Filter shipping methods when cart is updated and at checkout:
- * make sure that all products in package meet the criteria of restricted shipping class defined for shipping method.
- * If criteria is not met, remove shipping method from available shipping methods (rates)
+ * Filter shipping methods when cart is updated and at the checkout:
+ * make sure that all products in package meet the criteria of shipping class defined for shipping method.
+ * If criteria is not met, remove instance of shipping method from available shipping methods (rates)
  */
 
-add_filter( 'woocommerce_package_rates', 'SEB_filter_shipping_methods', 10, 2 );
+add_filter( 'woocommerce_package_rates', 'SCBS_filter_shipping_methods', 10, 2 );
 
-function SEB_filter_shipping_methods( $rates, $package ) {
+function SCBS_filter_shipping_methods( $rates, $package ) {
 
 
-	// Find SEB custom shipping methods
+	// Find instances of SCBS methods
     
 	foreach ( $rates as $rate_key => $rate ) {
         
-		if ( is_object( $rate ) && method_exists( $rate, 'get_id' ) && ( $rate->get_method_id() === SEB_ID ) ) {
+		if ( is_object( $rate ) && method_exists( $rate, 'get_id' ) && ( $rate->get_method_id() === SCBS_ID ) ) {
             
 			// get current instance's setting for restricted shipping class
 			$rate_id_number = str_replace( $rate->get_method_id(), '', $rate->get_id() );
@@ -23,7 +23,7 @@ function SEB_filter_shipping_methods( $rates, $package ) {
 			$option_name = 'woocommerce_' . $method_key_id . '_settings';
 			$shipping_class_slug = get_option( $option_name, true )['shipping_class'];
 
-			// Checking all in cart items and make sure they fit to restricted shipping class,
+			// Checking all in cart items and make sure they fit to SCBS instance's shipping class,
 			// if not remove shipping method's current instance
 
 			foreach( $package['contents'] as $item ){

@@ -1,10 +1,12 @@
-# Sebastian Custom Shipping method for WooCommerce
+# Simple Class Based Shipping method for WooCommerce
 
-## What is it and why?
+## What is it and why would I need it?
 
-Sebastian Custom Shipping adds new shipping method that is strictly dependent on shipping classes defined in WooCommerce. This feature is not available with standard WooCommerc shipping methods.
+Simple Class Based Shipping (SCBS) is WooCommerce shipping method that enables custom shipping option for products in chosen shipping class.
 
-As an example, shop admin can define shipping class for "letter size items" and wishes to have shipping method that is available for orders that contain only items that can fit in letter. With Sebastian Custom Shipping this can be achieved.
+As an example, web shop owner might have several shipping methods depending on what sized products are ordered. There could be need for smaller shipping fee for items that can fit inside envelope. This shipping option should be available only when client's shopping cart include items that meet this criteria.
+
+SCBS is supporting WooCommerce Shipping zones and instances of it can be defined for different zones and/or for different shipping classes.
 
 ## To do list for 1.0
 
@@ -14,4 +16,5 @@ As an example, shop admin can define shipping class for "letter size items" and 
 
 ## To do list for additional features
 
+- add feature: setting for tax
 - add feature: limit how many items of shipping class can fit in valid package

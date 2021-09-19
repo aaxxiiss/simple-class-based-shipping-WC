@@ -24,7 +24,7 @@ $settings =  array(
         'title' 		=> __( 'Title' ),
         'type' 			=> 'text',
         'description' 	=> __( 'This controls the title which the user sees during checkout.' ),
-        'default'		=> __( 'Sebastian Custom Shipping' ),
+        'default'		=> __( 'Simple Class Based Shipping' ),
         'desc_tip'		=> true
     ),
     'fixed_rate' => array(
@@ -37,7 +37,7 @@ $settings =  array(
     'shipping_class' => array(
         'title'			=> __('Shipping class'),
         'type'			=> 'select',
-        'description'	=> __('Restrict to shipping class. Shipping is available when all items on order belong to the selected shipping class.'),
+        'description'	=> __('Enabled only shipping class. Shipping option is available when all items on order belong to the selected shipping class.'),
         'options'		=> $shipping_class_names,
         'desc_tip'		=> true
     ),
