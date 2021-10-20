@@ -5,7 +5,7 @@ Plugin URI: https://github.com/aaxxiiss/simple-class-based-shipping-WC
 Description: Simple Class Based Shipping is a WooCommerce shipping method, that enables custom shipping option for products in chosen shipping class
 Version: 1.0.0
 Author: Jukka Isokoski
-Author URI: https://jukkaisokoski.fi
+Author URI: https://dev.jukkaisokoski.fi
 License: GPL v2 or later
 Text Domain: SCBS
 */
